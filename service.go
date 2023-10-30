@@ -1,6 +1,7 @@
 package main
 
 import (
+	"gilab.com/pragmaticreviews/golang-gin-poc/DBConnect"
 	"gilab.com/pragmaticreviews/golang-gin-poc/controller"
 	"gilab.com/pragmaticreviews/golang-gin-poc/middlewares"
 	"gilab.com/pragmaticreviews/golang-gin-poc/service"
@@ -22,6 +23,9 @@ func setupLogOutput() {
 }
 
 func main() {
+
+	DBConnect.GetDB()
+
 	setupLogOutput()
 	server := gin.New()
 
@@ -37,7 +41,7 @@ func main() {
 			ctx.JSON(200, videoController.FindAll())
 		})
 
-		apiRoutes.POST("/videos", func(ctx *gin.Context) {
+		apiRoutes.POST("/postvideo", func(ctx *gin.Context) {
 			err := videoController.Save(ctx)
 			if err != nil {
 				ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
